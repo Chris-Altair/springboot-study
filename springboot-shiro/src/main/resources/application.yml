@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    # mysql6版本以上驱动
+    driverClassName: com.mysql.cj.jdbc.Driver
+    # mysql8是没有默认时区的需要指明
+    url: jdbc:mysql://127.0.0.1:3306/sbs?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    initialSize: 1
+    minIdle: 3
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 30000
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    jedis:
+      pool:
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池中的最小空闲连接
+        min-idle: 10
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 100
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1
+    timeout: 1800000
+  thymeleaf:
+    mode: HTML5
+    cache: false # 页面热部署
+  jackson: #前端格式化输出时间
+    time-zone: GMT+8 #北京时间
+    date-format: yyyy-MM-dd HH:mm:ss
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true # 开启驼峰命名转换
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  #  mapper-locations: classpath*:mapper/*MapperOracle.xml
+  type-Aliases-Package: com.sbs.**.domain
+
+server:
+  # 端口
+  port: 8888

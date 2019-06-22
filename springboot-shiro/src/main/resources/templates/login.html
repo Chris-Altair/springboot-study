@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 包含头部信息用于适应不同设备 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 包含 bootstrap 样式表 -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-table.min.css}">
+    <title>Title</title>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/layer/layer.js"></script>
+    <script type="text/javascript">
+        function login() {
+            console.log("开始登陆");
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "/login",
+                data: {
+                    "username": $('#username').val(),
+                    "password": $('#password').val(),
+                    "rememberMe": $("input[name='rememberMe']").is(':checked')
+                },
+                success: function (r) {
+                    if (r.code == 0) {
+                        layer.msg(r.msg);
+                        window.location.href = "/index";
+                    } else {
+                        layer.msg(r.msg);
+                    }
+                }
+            });
+        }
+    </script>
+    <style>
+        .col-center-block {
+            float: none;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .container {
+            margin-top: 10%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="col-xs-6 col-md-4 col-center-block">
+        <form class="form-signin">
+            <h2 class="form-signin-heading">请登录</h2>
+            <label for="username" class="sr-only">用户名</label>
+            <input type="text" id="username" class="form-control" placeholder="用户名" required autofocus><br/>
+            <label for="password" class="sr-only">密码</label>
+            <input type="password" id="password" class="form-control" placeholder="密码" required><br/>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="rememberMe">记住我
+                </label>
+            </div>
+            <a id="login" class="btn btn-lg btn-primary btn-block" onclick="login()">登录</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>
