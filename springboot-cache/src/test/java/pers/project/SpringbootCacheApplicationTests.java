@@ -47,12 +47,12 @@ class SpringbootCacheApplicationTests {
              */
             @Override
             public Object execute(RedisOperations operations) throws DataAccessException {
-                operations.watch("age");
+                operations.watch("age"); // 如果事务提交之前age被修改，则事务不会提交
                 operations.multi();
                 operations.opsForValue().set("name", "qinyi");
                 operations.opsForValue().set("gender", "male");
                 operations.opsForValue().set("age", "19");
-                return operations.exec();
+                return operations.exec(); // 调用exec后，无论事务是否提交都会撤销对key的监控（watch)
             }
         });
 
